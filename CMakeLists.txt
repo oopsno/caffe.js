@@ -1,15 +1,12 @@
 cmake_minimum_required(VERSION 3.5)
-project(caffe_js)
+project(caffe.js)
 
-set(CAFFE_ROOT "/home/liuyufei/caffe-git")
-set(CAFFE_BUILD "${CAFFE_ROOT}/build")
+set(CAFFE_ROOT $ENV{CAFFE_ROOT})
+set(CAFFE_INCLUDE "${CAFFE_ROOT}/include")
+set(CAFFE_CMAKE "${CAFFE_ROOT}/cmake")
+set(CUDA_ROOT $ENV{CUDA_ROOT})
+set(INCLUDE "${PROJECT_SOURCE_DIR}/include")
 
-if(NOT APPLE)
-set(CMAKE_CXX_COMPILER /usr/local/cuda/bin/nvcc)
-endif(NOT APPLE)
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -L${CAFFE_BUILD}/lib")
+add_subdirectory(src/native)
+add_subdirectory(src/node)
 
-set(SOURCE_FILES src/predict.cpp)
-include_directories(include "${CAFFE_ROOT}/include")
-add_executable(predict ${SOURCE_FILES})
-target_link_libraries(predict protobuf opencv_core opencv_highgui opencv_imgproc caffe glog boost_system)
